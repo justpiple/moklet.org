@@ -22,7 +22,7 @@ export function NewsFigure({ post }: Readonly<{ post: PostWithTagsAndUser }>) {
       <div className="h-[200px] w-full">
         <Image
           src={post.thumbnail}
-          alt="wao"
+          alt={post.slug}
           unoptimized
           height={200}
           width={372}

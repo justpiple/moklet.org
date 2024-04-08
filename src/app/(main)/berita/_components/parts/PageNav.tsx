@@ -3,6 +3,7 @@ import EclipseIcon from "@/app/_components/icons/EclipseIcon";
 import ArrowLeft from "../icons/ArrowLeft";
 import ArrowRight from "../icons/ArrowRight";
 import PrimaryLinkButton from "./Button";
+import { notFound } from "next/navigation";
 
 export default function PageNav({
   currentPage,
@@ -21,7 +22,7 @@ export default function PageNav({
           currentPage + 1,
           totalPage,
         );
-
+  if (currentPage > totalPage) return notFound();
   return (
     <div className="flex gap-[34px] justify-center items-center">
       <PrimaryLinkButton

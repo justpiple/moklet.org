@@ -1,5 +1,4 @@
 import { Roles } from "@prisma/client";
-import { IconType } from "react-icons";
 
 export interface ProtectedRoutes {
   title: string;

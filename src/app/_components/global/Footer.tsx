@@ -21,13 +21,34 @@ const mainMenus: FootOption[] = [
 
 const usefulLinks: FootOption[] = [
   { title: "SMK Telkom Malang", href: "https://www.smktelkom-mlg.sch.id" },
-  { title: "SMK Telkom Malang", href: "https://www.smktelkom-mlg.sch.id" },
+  { title: "PPDB Moklet", href: "https://ppdb.smktelkom-mlg.sch.id" },
+  { title: "Yayasan Pendidikan Telkom", href: "https://ypt.or.id/" },
+  { title: "MokletDev", href: "#" },
+];
+
+const socialMedias: FootOption[] = [
+  {
+    title: "SMK Telkom Malang",
+    href: "https://www.instagram.com/smktelkommalang",
+  },
+  {
+    title: "OSIS Moklet",
+    href: "https://www.instagram.com/osismoklet",
+  },
+  {
+    title: "MPK Moklet",
+    href: "https://www.instagram.com/mpkmoklet",
+  },
+  {
+    title: "METIC Moklet",
+    href: "https://www.instagram.com/meticmoklet",
+  },
 ];
 
 export default function Footer() {
   return (
     <footer className="flex items-center justify-between">
-      <div className="mb-[42px] mt-[82px] flex flex-col xl:flex-row w-full justify-between gap-[62px]">
+      <div className="mb-[42px] mt-[82px] flex flex-col xl:flex-row w-full justify-between gap-[62px] lg:gap-[80px]">
         <div className="w-full xl:w-1/3">
           <div className="flex flex-col gap-[59px]">
             <div className="">
@@ -63,9 +84,9 @@ export default function Footer() {
             </div>
           </div>
           <div className="flex flex-col gap-[22px] w-full xl:w-1/4">
-            <h3 className="font-normal text-neutral-500">Menu Utama</h3>
+            <h3 className="font-normal text-neutral-500">Tautan</h3>
             <div className="flex flex-col gap-[14px] ">
-              {mainMenus.map((footOption) => (
+              {usefulLinks.map((footOption) => (
                 <TertiaryLinkButton
                   href={footOption.href}
                   key={footOption.title}
@@ -76,9 +97,9 @@ export default function Footer() {
             </div>
           </div>
           <div className="flex flex-col gap-[22px] w-full xl:w-1/4">
-            <h3 className="font-normal text-neutral-500">Menu Utama</h3>
+            <h3 className="font-normal text-neutral-500">Media Sosial</h3>
             <div className="flex flex-col gap-[14px] ">
-              {mainMenus.map((footOption) => (
+              {socialMedias.map((footOption) => (
                 <TertiaryLinkButton
                   href={footOption.href}
                   key={footOption.title}

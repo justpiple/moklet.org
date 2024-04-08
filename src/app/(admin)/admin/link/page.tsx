@@ -1,28 +1,37 @@
-import { SectionWrapper } from "@/app/_components/global/Wrapper";
 import LinkForm from "./_components/LinkForm";
-import prisma from "@/lib/prisma";
-import { Link_Shortener } from "@prisma/client";
-import Link from "next/link";
-import LinkTable from "./_components/Table";
-import LinkFigure from "./_components/LinkFigure";
 import { findAllLinks } from "@/utils/database/linkShortener.query.ts";
 import { nextGetServerSession } from "@/lib/next-auth";
 import Links from "./_components/Links";
-import Modal from "./_components/Modal";
 import { H1 } from "@/app/_components/global/Text";
+import { LinkWithCountAndUser } from "@/types/entityRelations";
+import { PaginatedResult } from "@/utils/paginator";
+import PageNav from "./_components/part/PageNav";
 
-export default async function Shortener() {
+export default async function Shortener({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}) {
   const session = await nextGetServerSession();
   const { user } = session!;
-  const links = await findAllLinks({
-    user_id: user?.role == "SuperAdmin" ? undefined : user?.id,
-  });
+  const links = (await findAllLinks(
+    {
+      user_id: user?.role == "SuperAdmin" ? undefined : user?.id,
+    },
+    parseInt(searchParams.page ?? "1"),
+  )) as PaginatedResult<LinkWithCountAndUser>;
 
   return (
     <>
       <H1>URL Shortener</H1>
       <LinkForm />
-      <Links links={links} />
+      <div className="flex flex-col gap-5">
+        <Links links={links.data} />
+        <PageNav
+          currentPage={links.meta.currentPage}
+          totalPage={links.meta.lastPage}
+        />
+      </div>
     </>
   );
 }
