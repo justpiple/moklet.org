@@ -89,7 +89,22 @@ export default function Footer() {
               </div>
             </div>
           </div>
-          <div></div>
+          <div className="mt-4 flex items-center gap-2">
+            <Image
+              alt="Netlify Icon"
+              src={"/images/netlify-icon.svg"}
+              width={24}
+              height={24}
+            />
+            <a
+              href="https://www.netlify.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-neutral-500"
+            >
+              Supported by Netlify
+            </a>
+          </div>
         </div>
         <div className="flex flex-col md:flex-row text-black w-full justify-start gap-[52px] xl:gap-0 xl:justify-between xl:w-[58%]">
           <div className="flex flex-col gap-[22px] w-full xl:w-[112px]">
