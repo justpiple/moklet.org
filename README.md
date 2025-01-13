@@ -50,7 +50,7 @@ Technologies used in the project:
 - NextAuth.JS
 - Prisma
 
-## 🤝 Contributing
+<h2>🤝 Contributing</h2>
 
 We welcome contributions to this project! Please take a moment to review our [📄 CONTRIBUTING.md](https://github.com/mokletdev/moklet.org/blob/development/CONTRIBUTING.md) guide for details on our code of conduct, contribution process, and how to get started.
 
@@ -59,3 +59,11 @@ Your support and ideas make this project even better. Thank you for being part o
 <h2>🛡️ License:</h2>
 
 This project is licensed under the GNU [General Public License v3.0](https://github.com/mokletdev/moklet.org/blob/development/LICENSE.md)
+
+<h2>🌐 Supported by:</h2>
+
+<p align="center">
+  <a href="https://www.netlify.com/" target="_blank">
+    <img src="https://res.cloudinary.com/projectsben/image/upload/v1736730123/storage/m6rrhk5ijqrsub55ptue.svg" alt="Netlify Logo" width="100">
+  </a>
+</p>
