@@ -3,11 +3,10 @@ import { FaGlobe } from "react-icons/fa";
 import { FaUserGroup } from "react-icons/fa6";
 
 import { OrganizationWithPeriod } from "@/types/entityRelations";
-import { findAllPeriods } from "@/utils/database/periodYear.query";
+import { findPeriodsThatHaveOrganisasi } from "@/utils/database/periodYear.query";
 import { Organisasi } from "@prisma/client";
 import OrganizationSection from "../OrganizationSection";
 import PeriodSelect from "../PeriodSelect";
-import { findOrganisasis } from "@/utils/database/organisasi.query";
 
 export interface OrganisasiProps {
   name: string;
@@ -30,20 +29,8 @@ export default async function Organizations({
   period: string;
   data: OrganizationWithPeriod[];
 }) {
-  const allPeriods = await findAllPeriods();
-  //filter only show periods that have data
-  const periodsWithFilter = await Promise.all(
-    allPeriods.map(async (period) => {
-      const organizations = await findOrganisasis({ period_id: period.id });
-      return { period, hasOrganizations: organizations.length > 0 };
-    }),
-  ).then((results) =>
-    results
-      .filter((result) => result.hasOrganizations)
-      .map((result) => result.period),
-  );
-
-  const periods = periodsWithFilter.map((periods) => ({
+  const Periods = await findPeriodsThatHaveOrganisasi();
+  const periods = Periods.map((periods) => ({
     label: periods.period.replace(/-/, "/"),
     value: periods.period,
   }));

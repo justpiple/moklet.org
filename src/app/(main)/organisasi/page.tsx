@@ -4,13 +4,15 @@ import { findLatestPeriod } from "@/utils/database/periodYear.query";
 import { redirect } from "next/navigation";
 
 export default async function OrganisasiPage() {
-  const activePeriod = await findLatestPeriod(true);
-  const isActivePeriodhaveOrganisasi =
-    (await findOrganisasis({ period_id: activePeriod.id })).length == 0;
+  const [activePeriod, lastPeriod] = await Promise.all([
+    findLatestPeriod(true),
+    findLatestPeriod(false),
+  ]);
 
-  if (!activePeriod) return <Maintenance />;
-  else if (isActivePeriodhaveOrganisasi)
-    return redirect(`/organisasi/${(await findLatestPeriod(false)).period}`);
+  if (!activePeriod && !lastPeriod) return <Maintenance />;
 
-  return redirect(`/organisasi/${activePeriod.period}`);
+  const organisasis = await findOrganisasis({ period_id: activePeriod.id });
+  return redirect(
+    `/organisasi/${organisasis.length ? activePeriod.period : lastPeriod.period}`,
+  );
 }

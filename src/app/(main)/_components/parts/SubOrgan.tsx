@@ -14,7 +14,6 @@ function SubOrganCount({
     </div>
   );
 }
-
 export default function SubOrgan() {
   return (
     <SectionWrapper id="sub-organ">
