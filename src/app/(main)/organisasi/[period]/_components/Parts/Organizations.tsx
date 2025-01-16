@@ -3,7 +3,7 @@ import { FaGlobe } from "react-icons/fa";
 import { FaUserGroup } from "react-icons/fa6";
 
 import { OrganizationWithPeriod } from "@/types/entityRelations";
-import { findAllPeriods } from "@/utils/database/periodYear.query";
+import { findPeriodsThatHaveOrganisasi } from "@/utils/database/periodYear.query";
 import { Organisasi } from "@prisma/client";
 import OrganizationSection from "../OrganizationSection";
 import PeriodSelect from "../PeriodSelect";
@@ -29,7 +29,8 @@ export default async function Organizations({
   period: string;
   data: OrganizationWithPeriod[];
 }) {
-  const periods = (await findAllPeriods()).map((periods) => ({
+  const Periods = await findPeriodsThatHaveOrganisasi();
+  const periods = Periods.map((periods) => ({
     label: periods.period.replace(/-/, "/"),
     value: periods.period,
   }));

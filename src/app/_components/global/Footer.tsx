@@ -52,6 +52,8 @@ const socialMedias: FootOption[] = [
   },
 ];
 
+const currentYear = new Date().getFullYear();
+
 export default function Footer() {
   return (
     <footer className="flex items-center justify-between w-full">
@@ -72,7 +74,7 @@ export default function Footer() {
             </div>
             <div className="hidden xl:block">
               <p className="font-normal text-black">
-                © 2024 Copyright MokletDev
+                © {currentYear} Copyright MokletDev
               </p>
               <div className="flex gap-4">
                 {footToS.map((footToS) => (
@@ -153,7 +155,9 @@ export default function Footer() {
           </div>
         </div>
         <div className="block xl:hidden">
-          <p className="font-normal text-black">© 2024 Copyright MokletDev</p>
+          <p className="font-normal text-black">
+            © {currentYear} Copyright MokletDev
+          </p>
           <div className="flex gap-4">
             {footToS.map((footToS) => (
               <LinkButton
