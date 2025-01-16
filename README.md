@@ -4,6 +4,8 @@
 
 [moklet.org](https://www.moklet.org)
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7e3e2c2a-10bc-499c-9d74-baaf228d4e17/deploy-status)](https://app.netlify.com/sites/moklet-organization/deploys)
+
 <h2>🧐 Features</h2>
 
 Here are some of the project's pages:
