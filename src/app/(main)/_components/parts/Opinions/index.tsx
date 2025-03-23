@@ -12,19 +12,18 @@ export default function Opinions() {
         <div className="mt-[54px] flex flex-col md:flex-row gap-[18px] w-full">
           <div className="flex flex-col gap-[24px] w-full md:w-[75%]">
             <div className="flex flex-col md:flex-row gap-[18px] w-full">
-              <div className="flex w-full md:w-1/2 items-center justify-center rounded-2xl border border-neutral-400 px-[28px] py-[32px]">
+              <div className="flex w-full md:w-1/2 items-start justify-center rounded-2xl border border-neutral-400 px-[28px] py-[32px]">
                 <Saying
                   personData={{
-                    name: "Lorem ipsum",
-                    role: "Lorem ipsum dolor",
+                    name: "Raisya Ramadhani Achmad",
+                    role: "Ketua OSIS Masa Bhakti 2024/2025",
                     image:
-                      "https://i.scdn.co/image/ab67616d00001e02f99ee9d6d91c399522b0baf9",
+                      "https://res.cloudinary.com/dhjeoo1pm/image/upload/v1742740906/yszngh4kngdbywpzdlz7.jpg",
                   }}
-                  saying="Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nulla ullamcorper odio justo."
+                  saying="Mewakili seluruh anggota OSIS 2024/2025, kami merasa sangat berterima kasih atas kesempatannya untuk berkembang dan tumbuh dengan memberikan wadah kepada siswa-siswi untuk mengasah minat bakatnya. Di OSIS kami belajar tentang apa itu kerja sama, tanggung jawab, hingga pertemanan. Dedikasi ini kami berikan untuk menjadikan SMK Telkom Malang terlebih OSIS Moklet untuk tumbuh dan jaya seterusnya. Tidak lupa, saya pribadi selaku Ketua OSIS Moklet 2024/2025 mengucapkan terima kasih kepada seluruh anggota OSIS Moklet 2024/2025 atas dedikasi yang telah diberikan."
                 />
               </div>
-              <div className="flex w-full md:w-1/2 items-center justify-center rounded-2xl border border-neutral-400 px-[28px] py-[32px]">
+              <div className="flex w-full md:w-1/2 items-start justify-center rounded-2xl border border-neutral-400 px-[28px] py-[32px]">
                 <Saying
                   personData={{
                     name: "Duan Tangguh M. P.",
@@ -36,7 +35,7 @@ export default function Opinions() {
                 />
               </div>
             </div>
-            <div className="flex w-full items-center justify-center rounded-2xl border border-neutral-400 px-[28px] py-[32px]">
+            <div className="flex w-full items-start justify-center rounded-2xl border border-neutral-400 px-[28px] py-[32px]">
               <Saying
                 personData={{
                   name: "Ijlal Windhi Saputra",
