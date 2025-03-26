@@ -10,9 +10,9 @@ generator client {
 }
 
 datasource db {
-  provider          = "mysql"
-  url               = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum Roles {
@@ -80,8 +80,8 @@ model Post {
   id           String    @id @default(uuid()) @map("post_id") @db.Char(36)
   title        String
   view_count   Int       @default(0)
-  description  String    @db.LongText
-  content      String    @db.LongText
+  description  String    @db.Text
+  content      String    @db.Text
   tags         Tag[]
   created_at   DateTime  @default(now())
   published_at DateTime?
@@ -104,7 +104,7 @@ model Tag {
 model Form {
   id          String       @id @map("form_id")
   title       String
-  description String?      @db.VarChar(255)
+  description String?      @db.Text
   user        User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id     String
   fields      Field[]
@@ -164,12 +164,12 @@ model Submission_Field {
   submission_id String
   field         Field      @relation(fields: [field_id], references: [id], onDelete: Cascade)
   field_id      Int
-  value         String     @db.LongText
+  value         String     @db.Text
 }
 
 model Link_Shortener {
   slug       String                @id @unique @db.VarChar(50)
-  target_url String                @db.LongText
+  target_url String                @db.Text
   user       User                  @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id    String
   created_at DateTime              @default(now())
@@ -220,14 +220,14 @@ model Organisasi {
   is_suborgan       Boolean
   organisasi_name   String          @map("organisasi_name")
   logo              String
-  description       String          @db.LongText
-  vision            String?         @db.LongText
-  mission           String?         @db.LongText
+  description       String          @db.Text
+  vision            String?         @db.Text
+  mission           String?         @db.Text
   image             String
   image_description String
   companion         String
   contact           String
-  structure         String          @db.LongText
+  structure         String          @db.Text
   created_at        DateTime        @default(now())
   updated_at        DateTime        @updatedAt
 
@@ -250,7 +250,7 @@ model Twibbon {
   color_key  String?
   created_at DateTime    @default(now())
   updated_at DateTime    @updatedAt
-  caption    String?     @db.LongText
+  caption    String?     @db.Text
   type       TwibbonType @default(PHOTO)
 }
 
@@ -270,7 +270,7 @@ model Aspirasi {
   event          Event?           @relation(fields: [event_id], references: [id], onDelete: Cascade)
   event_id       String?          @db.Char(36)
   judul_aspirasi String
-  pesan_aspirasi String           @db.LongText
+  pesan_aspirasi String           @db.Text
   organisasi     Organisasi_Type?
   unit_sekolah   UnitSekolah?
   created_at     DateTime         @default(now())
