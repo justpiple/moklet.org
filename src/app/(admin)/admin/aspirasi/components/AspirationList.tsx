@@ -47,7 +47,6 @@ export default function AspirationList() {
       take: NUMBER_OF_ASPIRATIONS_TO_FETCH,
       ...filter,
     });
-    console.log(filter);
 
     if (findAspirations.count > NUMBER_OF_ASPIRATIONS_TO_FETCH)
       setLoadingState(true);

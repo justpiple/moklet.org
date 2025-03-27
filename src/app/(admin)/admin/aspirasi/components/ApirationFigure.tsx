@@ -2,7 +2,7 @@
 
 import { H3, P } from "@/app/_components/global/Text";
 import { AspirationWithUser } from "@/types/entityRelations";
-import { stringifyDate } from "@/utils/atomics";
+import { stringifyDate, stripMarkdown } from "@/utils/atomics";
 import Link from "next/link";
 import { FaWpforms } from "react-icons/fa6";
 import { DateIcon, UserIcon } from "./Icons";
@@ -28,8 +28,8 @@ export default function AspirationFigure({
             </H3>
             <P className="max-w-full break-all">
               {data.pesan_aspirasi.length > 75
-                ? `${data.pesan_aspirasi.substring(0, 75)}...`
-                : data.pesan_aspirasi}
+                ? `${stripMarkdown(data.pesan_aspirasi.substring(0, 75))}...`
+                : stripMarkdown(data.pesan_aspirasi)}
             </P>
             <div className="pt-5 flex gap-4 flex-col lg:flex-row">
               <span className="flex gap-1 items-center">
