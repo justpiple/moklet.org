@@ -20,63 +20,67 @@ const styles: Record<string, CSSProperties> = {
   container: {
     display: "flex",
     flexDirection: "column" as const,
-    width: "1200px",
-    height: "1200px",
+    width: "600px",
+    height: "600px",
     backgroundColor: "#ffffff",
     fontFamily: "Montserrat, sans-serif",
     position: "relative",
   },
   headerImage: {
     width: "100%",
-    height: "500px",
+    height: "250px",
     objectFit: "cover" as const,
   },
   contentContainer: {
     backgroundColor: "#ffffff",
-    padding: "30px 40px",
+    padding: "10px 20px",
     display: "flex",
     flexDirection: "column" as const,
     flex: 1,
   },
   tagsContainer: {
     display: "flex",
-    gap: "15px",
-    marginTop: "5px",
+    gap: "8px",
+    marginTop: "6px",
     flexWrap: "wrap" as const,
     justifyItems: "center",
+    alignItems: "center",
   },
   tag: {
     backgroundColor: "#FFF0F0",
     color: "#E04E4E",
-    borderRadius: "20px",
-    fontSize: 20,
-    padding: "10px 20px",
+    borderRadius: "16px",
+    fontSize: 12,
+    padding: "6px 12px",
+    fontWeight: 500,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   articleContainer: {
     display: "flex",
     flexDirection: "column" as const,
     textAlign: "left" as const,
-    marginTop: 20,
   },
   title: {
-    fontSize: 52,
+    fontSize: 24,
     color: "#000000",
-    marginBottom: 10,
+    marginBottom: 5,
     fontWeight: 700,
     textAlign: "left" as const,
     lineHeight: 1.2,
   },
   content: {
-    fontSize: 24,
+    fontSize: 12,
     color: "#333333",
-    marginTop: 10,
-    marginBottom: 15,
+    marginTop: 5,
+    marginBottom: 8,
     lineHeight: 1.5,
     fontWeight: 500,
   },
   author: {
-    fontSize: 22,
-    marginTop: "15px",
+    fontSize: 11,
+    marginTop: "8px",
     color: "#333333",
     fontWeight: 500,
     display: "flex",
@@ -84,10 +88,10 @@ const styles: Record<string, CSSProperties> = {
   },
   authorName: {
     fontWeight: 700,
-    marginLeft: "4px",
+    marginLeft: "2px",
   },
   pencilIcon: {
-    marginRight: "8px",
+    marginRight: "4px",
   },
   footer: {
     display: "flex",
@@ -95,24 +99,24 @@ const styles: Record<string, CSSProperties> = {
     justifyContent: "space-between",
     backgroundColor: "#E04E4E",
     color: "#FFF",
-    padding: "15px 30px",
+    padding: "8px 15px",
     position: "absolute",
     bottom: 0,
     width: "100%",
     boxSizing: "border-box" as const,
   },
   footerLogo: {
-    height: 45,
+    height: 23,
   },
   footerText: {
-    fontSize: 24,
+    fontSize: 12,
     fontWeight: 500,
   },
 };
 
 const options: ImageResponseOptions = {
-  width: 1200,
-  height: 1200,
+  width: 600,
+  height: 600,
   fonts: [
     {
       name: "Montserrat",
@@ -141,7 +145,7 @@ export async function GET(
   const baseUrl = process.env.URL || "https://www.moklet.org";
 
   const contentPreview =
-    stripMarkdown(post.content.split(" ").slice(0, 50).join(" ")) + "...";
+    stripMarkdown(post.content.split(" ").slice(0, 30).join(" ")) + "...";
 
   return new ImageResponse(
     (
@@ -163,7 +167,7 @@ export async function GET(
             <p style={styles.content}>{contentPreview}</p>
 
             <p style={styles.author}>
-              <FaPencilAlt style={styles.pencilIcon} size={18} /> Ditulis oleh
+              <FaPencilAlt style={styles.pencilIcon} size={10} /> Ditulis oleh
               <span style={styles.authorName}>{trimName(post.user.name)}</span>
             </p>
           </div>
