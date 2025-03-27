@@ -14,7 +14,7 @@ const montserratBold = readFileSync(
   path.join(process.cwd(), "public/fonts/Montserrat-Bold.ttf"),
 );
 
-export const options: ImageResponseOptions = {
+const options: ImageResponseOptions = {
   width: 1080,
   height: 1920,
   fonts: [
@@ -32,8 +32,6 @@ export const options: ImageResponseOptions = {
     },
   ],
 };
-
-export const contentType = "image/png";
 
 export async function GET(
   request: Request,
