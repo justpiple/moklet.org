@@ -28,12 +28,12 @@ export async function generateMetadata({
 
   return {
     title: post.title,
-    description: post.description,
+    description: post.description.trim() || null,
     authors: { name: post.user.name },
     openGraph: {
       url: `${process.env.URL ?? "https://www.moklet.org"}/berita/${post.slug}`,
       title: post.title,
-      description: post.description,
+      description: post.description.trim() || undefined,
       type: "article",
       publishedTime: new Date(post.published_at!).toISOString(),
       modifiedTime: new Date(post.updated_at).toISOString(),
@@ -57,12 +57,10 @@ export default async function Post({
   const jsonLd: WithContext<NewsArticle> = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
-    image: post.thumbnail,
     description: post.description,
     headline: post.title,
     datePublished: new Date(post.published_at!).toISOString(),
     dateModified: new Date(post.updated_at).toISOString(),
-    thumbnailUrl: post.thumbnail,
   };
 
   return (

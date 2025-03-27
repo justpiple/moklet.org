@@ -129,6 +129,16 @@ export const options: ImageResponseOptions = {
   ],
 };
 
+export function generateImageMetadata() {
+  return [
+    {
+      contentType: "image/jpeg",
+      size: { width: 600, height: 600 },
+      id: "medium",
+    },
+  ];
+}
+
 export default async function opengraphImage({
   params,
 }: {
