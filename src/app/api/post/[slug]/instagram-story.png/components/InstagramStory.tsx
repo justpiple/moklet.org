@@ -1,5 +1,5 @@
 import type { PostWithTagsAndUser } from "@/types/entityRelations";
-import { stripMarkdown } from "@/utils/atomics";
+import { stripMarkdown, trimName } from "@/utils/atomics";
 import type { CSSProperties } from "react";
 
 const styles: Record<string, CSSProperties> = {
@@ -166,7 +166,7 @@ export default function InstagramStory({
 
           <p style={styles.author}>
             Ditulis oleh
-            <span style={styles.authorName}> {post.user.name}</span>
+            <span style={styles.authorName}> {trimName(post.user.name)}</span>
           </p>
         </div>
       </div>
