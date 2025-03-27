@@ -31,6 +31,7 @@ export const metadata: Metadata = {
     images: "https://www.moklet.org/horizontal.png",
   },
   robots: robots,
+  metadataBase: new URL(process.env.URL || "https://www.moklet.org"),
 };
 
 export const viewport: Viewport = {
