@@ -31,8 +31,7 @@ export async function generateMetadata({
     description: post.description,
     authors: { name: post.user.name },
     openGraph: {
-      url: `${process.env.URL ?? "https://www.moklet.org/berita/"}${post.slug}`,
-      images: post.thumbnail,
+      url: `${process.env.URL ?? "https://www.moklet.org"}/berita/${post.slug}`,
       title: post.title,
       description: post.description,
       type: "article",
@@ -47,7 +46,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function Post({ params }: { params: { slug: string } }) {
+export default async function Post({
+  params,
+}: Readonly<{ params: { slug: string } }>) {
   const post = await findPost({ slug: params.slug, published: true });
 
   if (!post) notFound();
@@ -60,7 +61,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
     description: post.description,
     headline: post.title,
     datePublished: new Date(post.published_at!).toISOString(),
-    dateModified: new Date(post.updated_at!).toISOString(),
+    dateModified: new Date(post.updated_at).toISOString(),
     thumbnailUrl: post.thumbnail,
   };
 
@@ -68,30 +69,32 @@ export default async function Post({ params }: { params: { slug: string } }) {
     <SmallSectionWrapper id={"Post-" + params.slug}>
       <div className="w-full flex gap-[92px] xl:gap-0 xl:justify-between xl:flex-row flex-col">
         <div className="w-full xl:w-[60%] flex flex-col gap-[52px]">
-          <div className="w-full flex gap-[18px] lg:gap-[32px]">
-            <GoBack />
-            <div className="w-full block">
-              <H2 className="text-wrap hidden lg:block mb-8">{post?.title}</H2>
-              <H4 className="text-wrap block lg:hidden mb-8">{post?.title}</H4>
-              <div className="w-full flex md:items-center gap-2 md:gap-0 flex-col md:flex-row md:justify-between">
-                <div className="max-w-full flex items-center justify-between md:gap-8 md:w-[40%]">
-                  <div className="flex items-center gap-3">
-                    <Image
-                      src={post?.user.user_pic as string}
-                      alt={post?.user.name + "'s Pfp"}
-                      unoptimized
-                      height={28}
-                      width={28}
-                      className="h-7 w-7 object-cover rounded-full"
-                    />
-                    <span className="text-base text-black">
-                      {trimName(post?.user.name)}
-                    </span>
-                  </div>
-                  <P>{stringifyDate(post?.created_at)}</P>
-                </div>
-                <P>{post.view_count} views</P>
+          <div className="w-full block">
+            <div className="flex gap-[18px] lg:gap-[32px] items-center mb-8">
+              <GoBack />
+              <div>
+                <H2 className="text-wrap hidden lg:block">{post?.title}</H2>
+                <H4 className="text-wrap block lg:hidden">{post?.title}</H4>
               </div>
+            </div>
+            <div className="w-full flex md:items-center gap-2 md:gap-0 flex-col md:flex-row md:justify-between">
+              <div className="max-w-full flex items-center justify-between md:gap-8 md:w-[40%]">
+                <div className="flex items-center gap-3">
+                  <Image
+                    src={post?.user.user_pic}
+                    alt={post?.user.name + "'s Pfp"}
+                    unoptimized
+                    height={28}
+                    width={28}
+                    className="h-7 w-7 object-cover rounded-full"
+                  />
+                  <span className="text-base text-black">
+                    {trimName(post?.user.name)}
+                  </span>
+                </div>
+                <P>{stringifyDate(post?.created_at)}</P>
+              </div>
+              <P>{post.view_count} views</P>
             </div>
           </div>
           <div>
@@ -113,9 +116,8 @@ export default async function Post({ params }: { params: { slug: string } }) {
                   ))}
                 </div>
                 <ShareButton
-                  shareData={{
-                    url: `${process.env.URL ?? "https://www.moklet.org/berita/"}${post.slug}`,
-                  }}
+                  url={`${process.env.URL ?? "https://www.moklet.org"}/berita/${post.slug}`}
+                  post={post}
                 />
               </div>
               <MdViewer markdown={post?.content} />
@@ -125,8 +127,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
 
         <div className="flex flex-col xl:w-[34%] gap-[52px] w-full">
           <H3>Berita Terkait</H3>
-          {/* eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain */}
-          <Related currentPostId={post.id} tags={post?.tags!} />
+          <Related currentPostId={post.id} tags={post.tags} />
         </div>
       </div>
       <script

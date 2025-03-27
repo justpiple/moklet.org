@@ -163,3 +163,14 @@ export function getDateDaysAgoMore(date: Date, days: number) {
   date.setDate(date.getDate() + days);
   return date;
 }
+
+export const stripMarkdown = (markdown: string) => {
+  return markdown
+    .replace(/!\[.*?\]\(.*?\)/g, "")
+    .replace(/\[([^\]]+)\]\(.*?\)/g, "$1")
+    .replace(/`{3}.*\n?/g, "")
+    .replace(/`(.+?)`/g, "$1")
+    .replace(/[*_~`#>-]/g, "")
+    .replace(/\n+/g, " ")
+    .trim();
+};

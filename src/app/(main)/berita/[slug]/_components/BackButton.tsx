@@ -11,7 +11,7 @@ export default function GoBack() {
   return (
     <Button
       variant={"primary"}
-      className="w-[50px] h-[50px] justify-center flex items-center p-[13px]"
+      className="w-[40px] h-[40px] md:w-[50px] md:h-[50px] justify-center flex items-center p-[13px]"
       onClick={() => {
         router.back();
       }}
