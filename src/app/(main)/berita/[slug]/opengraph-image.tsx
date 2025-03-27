@@ -147,11 +147,7 @@ export default async function opengraphImage({
   return new ImageResponse(
     (
       <div style={styles.container}>
-        <img
-          src="https://res.cloudinary.com/mokletorg/image/upload/v1742779542/app_media/file_ejvjoe.jpg"
-          alt="Event"
-          style={styles.headerImage}
-        />
+        <img src={post.thumbnail} alt="Event" style={styles.headerImage} />
 
         <div style={styles.contentContainer}>
           <div style={styles.tagsContainer}>
