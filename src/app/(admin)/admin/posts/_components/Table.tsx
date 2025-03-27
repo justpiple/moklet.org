@@ -2,7 +2,7 @@
 import { useRouter } from "next-nprogress-bar";
 import { useEffect, useState } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaRegTrashAlt, FaDownload } from "react-icons/fa";
 import { MdPublish, MdUnpublished } from "react-icons/md";
 import { toast } from "sonner";
 
@@ -10,11 +10,33 @@ import { postDelete, updatePostStatus } from "@/actions/post";
 import { PostWithTagsAndUser } from "@/types/entityRelations";
 import { stringifyCompleteDate } from "@/utils/atomics";
 
-export default function PostTable({ data }: { data: PostWithTagsAndUser[] }) {
+export default function PostTable({
+  data,
+}: Readonly<{ data: PostWithTagsAndUser[] }>) {
   const [loader, setLoader] = useState(true);
   const router = useRouter();
 
   const columns: TableColumn<PostWithTagsAndUser>[] = [
+    {
+      name: "Share Image",
+      cell: (row: PostWithTagsAndUser) => (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            const link = document.createElement("a");
+            link.href = `/api/post/${row.slug}/instagram-story.png`;
+            link.download = `${row.slug}-instagram-story.png`;
+            link.click();
+          }}
+          title="Download Instagram Story Image"
+          className="bg-purple-100 text-purple-800 text-xs font-medium me-2 p-2.5 rounded hover:text-white hover:bg-purple-700 transition-all flex items-center justify-center"
+        >
+          <FaDownload />
+        </button>
+      ),
+      width: "80px",
+      sortable: false,
+    },
     {
       name: "Title",
       selector: (row: PostWithTagsAndUser) => row.title,
@@ -30,7 +52,6 @@ export default function PostTable({ data }: { data: PostWithTagsAndUser[] }) {
       cell: (row: PostWithTagsAndUser) => (
         <span>{row.tags.map((tag) => tag.tagName).join(", ")}</span>
       ),
-
       sortable: false,
     },
     {
@@ -66,14 +87,20 @@ export default function PostTable({ data }: { data: PostWithTagsAndUser[] }) {
       cell: (row: PostWithTagsAndUser) => (
         <div className="flex gap-2">
           <button
-            onClick={() => updateStatus(row.published, row.id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              updateStatus(row.published, row.id);
+            }}
             title={row.published ? "Unpublish post" : "Publish post"}
             className="bg-blue-100 text-blue-800 text-xs font-medium me-2 p-2.5 rounded hover:text-white  hover:bg-blue-700 transition-all"
           >
             {row.published ? <MdUnpublished /> : <MdPublish />}
           </button>
           <button
-            onClick={() => deletePost(row.id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              deletePost(row.id);
+            }}
             title="Delete Post"
             className="bg-red-100 text-red-800 text-xs font-medium me-2 p-2.5  rounded hover:text-white  hover:bg-red-700 transition-all"
           >

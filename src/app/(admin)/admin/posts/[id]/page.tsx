@@ -8,6 +8,7 @@ import { findAllTags } from "@/utils/database/tag.query";
 
 import EditForm from "./_components/Form";
 import PublishButton from "./_components/parts/PublishButton";
+import DownloadIGStoryButton from "./_components/parts/DownloadIGStoryButton";
 
 export const revalidate = 0;
 
@@ -26,8 +27,11 @@ export default async function Edit({ params }: { params: { id: string } }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-between">
-        <H1>Edit Post</H1>
+      <div className="flex justify-between items-center">
+        <div className="flex items-center gap-4">
+          <H1>Edit Post</H1>
+          <DownloadIGStoryButton slug={data.slug} />
+        </div>
         <PublishButton state={data.published} id={data.id} />
       </div>
       <EditForm tags={tags} post={data} />

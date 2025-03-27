@@ -151,7 +151,7 @@ export default async function opengraphImage({
 
         <div style={styles.contentContainer}>
           <div style={styles.tagsContainer}>
-            {post.tags.map((tag) => (
+            {post.tags.slice(0, 3).map((tag) => (
               <div key={`tag-${tag.tagName}`} style={styles.tag}>
                 {tag.tagName}
               </div>
