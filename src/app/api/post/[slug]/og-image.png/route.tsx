@@ -110,7 +110,7 @@ const styles: Record<string, CSSProperties> = {
   },
 };
 
-export const options: ImageResponseOptions = {
+const options: ImageResponseOptions = {
   width: 1200,
   height: 1200,
   fonts: [
