@@ -26,13 +26,16 @@ export async function generateMetadata({
       title: "Berita tidak ditemukan",
     };
 
+  const baseUrl = process.env.URL || "https://www.moklet.org";
+
   return {
     title: post.title,
     description: post.description.trim() || null,
     authors: { name: post.user.name },
     openGraph: {
-      url: `${process.env.URL ?? "https://www.moklet.org"}/berita/${post.slug}`,
+      url: `${baseUrl}/berita/${post.slug}`,
       title: post.title,
+      images: [{ url: `${baseUrl}/api/post/${post.slug}/og-image.png` }],
       description: post.description.trim() || undefined,
       type: "article",
       publishedTime: new Date(post.published_at!).toISOString(),
@@ -49,6 +52,7 @@ export async function generateMetadata({
 export default async function Post({
   params,
 }: Readonly<{ params: { slug: string } }>) {
+  const baseUrl = process.env.URL || "https://www.moklet.org";
   const post = await findPost({ slug: params.slug, published: true });
 
   if (!post) notFound();
@@ -57,10 +61,12 @@ export default async function Post({
   const jsonLd: WithContext<NewsArticle> = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
+    image: `${baseUrl}/api/post/${post.slug}/og-image.png`,
     description: post.description,
     headline: post.title,
     datePublished: new Date(post.published_at!).toISOString(),
     dateModified: new Date(post.updated_at).toISOString(),
+    thumbnailUrl: `${baseUrl}/api/post/${post.slug}/og-image.png`,
   };
 
   return (

@@ -6,6 +6,7 @@ import { FaPencilAlt } from "react-icons/fa";
 import { CSSProperties } from "react";
 import { findPost } from "@/utils/database/post.query";
 import { stripMarkdown, trimName } from "@/utils/atomics";
+import { notFound } from "next/navigation";
 
 const montserratMedium = readFileSync(
   path.join(process.cwd(), "public/fonts/Montserrat-Medium.ttf"),
@@ -19,63 +20,63 @@ const styles: Record<string, CSSProperties> = {
   container: {
     display: "flex",
     flexDirection: "column" as const,
-    width: "600px",
-    height: "600px",
+    width: "1200px",
+    height: "1200px",
     backgroundColor: "#ffffff",
     fontFamily: "Montserrat, sans-serif",
     position: "relative",
   },
   headerImage: {
     width: "100%",
-    height: "250px",
+    height: "500px",
     objectFit: "cover" as const,
   },
   contentContainer: {
     backgroundColor: "#ffffff",
-    padding: "15px 20px",
+    padding: "30px 40px",
     display: "flex",
     flexDirection: "column" as const,
     flex: 1,
   },
   tagsContainer: {
     display: "flex",
-    gap: "8px",
-    marginTop: "2px",
+    gap: "15px",
+    marginTop: "5px",
     flexWrap: "wrap" as const,
     justifyItems: "center",
   },
   tag: {
     backgroundColor: "#FFF0F0",
     color: "#E04E4E",
-    borderRadius: "15px",
-    fontSize: 12,
-    padding: "5px 10px",
+    borderRadius: "20px",
+    fontSize: 20,
+    padding: "10px 20px",
   },
   articleContainer: {
     display: "flex",
     flexDirection: "column" as const,
     textAlign: "left" as const,
-    marginTop: 10,
+    marginTop: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 52,
     color: "#000000",
-    marginBottom: 5,
+    marginBottom: 10,
     fontWeight: 700,
     textAlign: "left" as const,
     lineHeight: 1.2,
   },
   content: {
-    fontSize: 14,
+    fontSize: 24,
     color: "#333333",
-    marginTop: 5,
-    marginBottom: 8,
-    lineHeight: 1.4,
+    marginTop: 10,
+    marginBottom: 15,
+    lineHeight: 1.5,
     fontWeight: 500,
   },
   author: {
-    fontSize: 12,
-    marginTop: "8px",
+    fontSize: 22,
+    marginTop: "15px",
     color: "#333333",
     fontWeight: 500,
     display: "flex",
@@ -83,10 +84,10 @@ const styles: Record<string, CSSProperties> = {
   },
   authorName: {
     fontWeight: 700,
-    marginLeft: "3px",
+    marginLeft: "4px",
   },
   pencilIcon: {
-    marginRight: "4px",
+    marginRight: "8px",
   },
   footer: {
     display: "flex",
@@ -94,25 +95,24 @@ const styles: Record<string, CSSProperties> = {
     justifyContent: "space-between",
     backgroundColor: "#E04E4E",
     color: "#FFF",
-    padding: "8px 15px",
+    padding: "15px 30px",
     position: "absolute",
     bottom: 0,
     width: "100%",
     boxSizing: "border-box" as const,
   },
   footerLogo: {
-    height: 25,
+    height: 45,
   },
   footerText: {
-    fontSize: 12,
+    fontSize: 24,
     fontWeight: 500,
-    maxWidth: "400px",
   },
 };
 
 export const options: ImageResponseOptions = {
-  width: 600,
-  height: 600,
+  width: 1200,
+  height: 1200,
   fonts: [
     {
       name: "Montserrat",
@@ -129,29 +129,19 @@ export const options: ImageResponseOptions = {
   ],
 };
 
-export function generateImageMetadata() {
-  return [
-    {
-      contentType: "image/png",
-      size: { width: 600, height: 600 },
-      id: "medium",
-    },
-  ];
-}
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ slug: string }> },
+) {
+  const { slug } = await params;
+  const post = await findPost({ slug: slug, published: true });
 
-export default async function opengraphImage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const post = await findPost({ slug: params.slug, published: true });
-
-  if (!post) return <h1>Not Found</h1>;
+  if (!post) return notFound();
 
   const baseUrl = process.env.URL || "https://www.moklet.org";
 
   const contentPreview =
-    stripMarkdown(post.content.split(" ").slice(0, 30).join(" ")) + "...";
+    stripMarkdown(post.content.split(" ").slice(0, 50).join(" ")) + "...";
 
   return new ImageResponse(
     (
@@ -160,7 +150,7 @@ export default async function opengraphImage({
 
         <div style={styles.contentContainer}>
           <div style={styles.tagsContainer}>
-            {post.tags.slice(0, 2).map((tag) => (
+            {post.tags.slice(0, 3).map((tag) => (
               <div key={`tag-${tag.tagName}`} style={styles.tag}>
                 {tag.tagName}
               </div>
@@ -173,7 +163,7 @@ export default async function opengraphImage({
             <p style={styles.content}>{contentPreview}</p>
 
             <p style={styles.author}>
-              <FaPencilAlt style={styles.pencilIcon} size={10} /> Ditulis oleh
+              <FaPencilAlt style={styles.pencilIcon} size={18} /> Ditulis oleh
               <span style={styles.authorName}>{trimName(post.user.name)}</span>
             </p>
           </div>
