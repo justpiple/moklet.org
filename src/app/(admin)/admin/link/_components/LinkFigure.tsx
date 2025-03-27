@@ -118,7 +118,7 @@ export default function LinkFigure({
             className="group border border-primary-400 px-3 py-2 sm:py-3 rounded-xl hover:bg-primary-400/50 transition-all duration-500"
           >
             <span className="text-primary-400 flex items-center gap-2 transition-all duration-500">
-              <FaQrcode size={20} className="md:w-6 md:h-6" />
+              <FaQrcode size={24} className="md:w-6 md:h-6" />
             </span>
           </button>
 
