@@ -51,8 +51,8 @@ export default function QRModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-white p-8 rounded-xl max-w-md w-full">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 py-6 overflow-y-auto">
+      <div className="bg-white p-6 rounded-xl max-w-sm w-full my-auto">
         <div className="flex justify-between items-center mb-6">
           <H3 className="text-xl font-semibold">QR Code</H3>
           <button
@@ -63,10 +63,10 @@ export default function QRModal({
           </button>
         </div>
 
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-4">
           <div
             ref={ref}
-            className="w-64 h-64 flex items-center justify-center"
+            className="w-48 h-48 flex items-center justify-center"
           ></div>
         </div>
 
