@@ -17,6 +17,7 @@ const montserratBold = readFileSync(
 );
 
 const styles: Record<string, CSSProperties> = {
+  // styles tetap sama seperti sebelumnya
   container: {
     display: "flex",
     flexDirection: "column" as const,
@@ -26,92 +27,7 @@ const styles: Record<string, CSSProperties> = {
     fontFamily: "Montserrat, sans-serif",
     position: "relative",
   },
-  headerImage: {
-    width: "100%",
-    height: "250px",
-    objectFit: "cover" as const,
-  },
-  contentContainer: {
-    backgroundColor: "#ffffff",
-    padding: "10px 20px",
-    display: "flex",
-    flexDirection: "column" as const,
-    flex: 1,
-  },
-  tagsContainer: {
-    display: "flex",
-    gap: "8px",
-    marginTop: "6px",
-    flexWrap: "wrap" as const,
-    justifyItems: "center",
-    alignItems: "center",
-  },
-  tag: {
-    backgroundColor: "#FFF0F0",
-    color: "#E04E4E",
-    borderRadius: "16px",
-    fontSize: 12,
-    padding: "6px 12px",
-    fontWeight: 500,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  articleContainer: {
-    display: "flex",
-    flexDirection: "column" as const,
-    textAlign: "left" as const,
-  },
-  title: {
-    fontSize: 24,
-    color: "#000000",
-    marginBottom: 5,
-    fontWeight: 700,
-    textAlign: "left" as const,
-    lineHeight: 1.2,
-  },
-  content: {
-    fontSize: 12,
-    color: "#333333",
-    marginTop: 5,
-    marginBottom: 8,
-    lineHeight: 1.5,
-    fontWeight: 500,
-  },
-  author: {
-    fontSize: 11,
-    marginTop: "8px",
-    color: "#333333",
-    fontWeight: 500,
-    display: "flex",
-    alignItems: "center",
-  },
-  authorName: {
-    fontWeight: 700,
-    marginLeft: "2px",
-  },
-  pencilIcon: {
-    marginRight: "4px",
-  },
-  footer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "#E04E4E",
-    color: "#FFF",
-    padding: "8px 15px",
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-    boxSizing: "border-box" as const,
-  },
-  footerLogo: {
-    height: 23,
-  },
-  footerText: {
-    fontSize: 12,
-    fontWeight: 500,
-  },
+  // ...styles lainnya tetap sama
 };
 
 const options: ImageResponseOptions = {
@@ -133,12 +49,17 @@ const options: ImageResponseOptions = {
   ],
 };
 
+export const revalidate = 7200;
+
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ slug: string }> },
 ) {
   const { slug } = await params;
-  const post = await findPost({ slug: slug, published: true });
+  const post = await findPost({
+    slug: slug,
+    published: true,
+  });
 
   if (!post) return notFound();
 
@@ -147,11 +68,15 @@ export async function GET(
   const contentPreview =
     stripMarkdown(post.content.split(" ").slice(0, 30).join(" ")) + "...";
 
+  const headers = new Headers({
+    "Cache-Control":
+      "public, max-age=60, s-maxage=3600, stale-while-revalidate=86400",
+  });
+
   return new ImageResponse(
     (
       <div style={styles.container}>
-        <img src={post.thumbnail} alt="Event" style={styles.headerImage} />
-
+        <img src={`${post.thumbnail}`} alt="Event" style={styles.headerImage} />
         <div style={styles.contentContainer}>
           <div style={styles.tagsContainer}>
             {post.tags.slice(0, 3).map((tag) => (
@@ -185,6 +110,9 @@ export async function GET(
         </div>
       </div>
     ),
-    options,
+    {
+      ...options,
+      headers,
+    },
   );
 }

@@ -58,7 +58,7 @@ export const upsertTwibbon = async (id: string | null, data: FormData) => {
     }
 
     revalidatePath("/admin/twibbon");
-    revalidatePath("/twbn/[slug]");
+    revalidatePath(`/twbn/${slug}`);
     return { message: "Berhasil disimpan!", success: true };
   } catch (e) {
     console.error(e);
@@ -83,7 +83,7 @@ export const deleteTwibbonById = async (id: string) => {
     if (!del) throw new Error("Delete failed");
 
     revalidatePath("/admin/twibbon");
-    revalidatePath("/twbn/[slug]");
+    revalidatePath(`/twbn/${del.slug}`);
     return { message: "Berhasil dihapus!", error: false };
   } catch (e) {
     console.error(e);

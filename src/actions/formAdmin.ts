@@ -16,6 +16,8 @@ export const deleteForm = async (form_id: string) => {
   try {
     await deleteFormById(form_id);
     revalidatePath("/admin/form");
+    revalidatePath(`/admin/form/${form_id}`);
+    revalidatePath(`/form/${form_id}`);
     return { error: false, message: "Sukses menghapus formulir" };
   } catch (e) {
     console.error(e);
@@ -104,7 +106,8 @@ export const saveForm = async (
       }
 
       revalidatePath("/admin/form");
-      revalidatePath("/admin/form/[id]");
+      revalidatePath(`/admin/form/${data.id}`);
+      revalidatePath(`/form/${data.id}`);
       return {
         error: false,
         message: "Berhasil menyimpan formulir",
@@ -147,7 +150,8 @@ export const saveForm = async (
       );
 
       revalidatePath("/admin/form");
-      revalidatePath("/admin/form/[id]");
+      revalidatePath(`/admin/form/${data.id}`);
+      revalidatePath(`/form/${data.id}`);
       return {
         error: false,
         message: "Berhasil menyimpan formulir",
@@ -227,9 +231,13 @@ export const cloneForm = async (id: string) => {
 
 export const deleteSubmission = async (id: string) => {
   try {
-    await prisma.submission.deleteMany({ where: { form_id: id } });
+    await prisma.submission.deleteMany({
+      where: { form_id: id },
+    });
 
     revalidatePath("/admin/form");
+    revalidatePath("/admin/form/[id]");
+    revalidatePath("/form/[id]", "page");
     return { error: false, message: "Berhasil menghapus jawaban" };
   } catch (e) {
     console.error(e);

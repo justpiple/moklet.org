@@ -93,10 +93,10 @@ export async function postCreate(
 
     if (!newPost) return { error: true, message: "Gagal membuat post!" };
 
+    revalidatePath("/");
     revalidatePath("/berita");
     revalidatePath("/admin/posts");
-    revalidatePath("/organisasi/[period]/[slug]");
-    revalidatePath("/");
+    revalidatePath("/organisasi/[period]/[slug]", "page");
 
     return { message: "Success", result: { id: newPost.id } };
   } catch (e) {
@@ -149,11 +149,14 @@ export async function postUpdate(
       },
     );
     if (!update) return { error: true, message: "Gagal update post!" };
-    revalidatePath("/berita");
+
     revalidatePath("/");
+    revalidatePath("/berita");
+    revalidatePath(`/berita/${update.slug}`);
+    revalidatePath(`/api/post/${update.slug}/og-image.png`);
     revalidatePath("/admin/posts");
-    revalidatePath("/organisasi/[period]/[slug]");
-    revalidatePath(`/admin/posts/[id]`);
+    revalidatePath("/organisasi/[period]/[slug]", "page");
+    revalidatePath(`/admin/posts/${update.slug}`);
     return { message: "Success" };
   } catch (e) {
     console.log(e);
@@ -163,7 +166,7 @@ export async function postUpdate(
 
 export async function updatePostStatus(current_state: boolean, id: string) {
   try {
-    await updatePost(
+    const update = await updatePost(
       { id: id },
       {
         published: !current_state,
@@ -171,11 +174,14 @@ export async function updatePostStatus(current_state: boolean, id: string) {
         published_at: !current_state ? new Date() : undefined,
       },
     );
-    revalidatePath("/berita");
-    revalidatePath("/admin/posts");
-    revalidatePath("/organisasi/[period]/[slug]");
-    revalidatePath(`/admin/posts/[id]`, "page");
+
     revalidatePath("/");
+    revalidatePath("/berita");
+    revalidatePath(`/berita/${update.slug}`);
+    revalidatePath(`/api/post/${update.slug}/og-image.png`);
+    revalidatePath("/admin/posts");
+    revalidatePath("/organisasi/[period]/[slug]", "page");
+    revalidatePath(`/admin/posts/${update.slug}`);
     return { message: "Berhasil megupdate post!" };
   } catch (e) {
     console.log(e);
@@ -185,12 +191,15 @@ export async function updatePostStatus(current_state: boolean, id: string) {
 
 export async function postDelete(id: string) {
   try {
-    await deletePost(id);
-    revalidatePath("/berita");
-    revalidatePath("/admin/posts");
-    revalidatePath(`/admin/posts/[id]`);
-    revalidatePath("/organisasi/[period]/[slug]");
+    const post = await deletePost(id);
+
     revalidatePath("/");
+    revalidatePath("/berita");
+    revalidatePath(`/berita/${post.slug}`);
+    revalidatePath(`/api/post/${post.slug}/og-image.png`);
+    revalidatePath("/admin/posts");
+    revalidatePath("/organisasi/[period]/[slug]", "page");
+    revalidatePath(`/admin/posts/${post.slug}`);
     return { message: "Berhasil menghapus post!" };
   } catch (e) {
     console.log(e);

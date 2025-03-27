@@ -18,7 +18,7 @@ export default async function checkPass(formdata: FormData, slug: string) {
       update: { click_count: { increment: 1 } },
       create: { click_count: 1, id: slug },
     });
-    redirect(destinationLink.target_url!);
+    redirect(destinationLink.target_url);
   }
 
   return { message: "Kata sandi salah!" };

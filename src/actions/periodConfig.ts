@@ -40,8 +40,8 @@ export const upsertPeriod = async (id: string | null, data: FormData) => {
 
     revalidatePath("/admin/period-config");
     revalidatePath("/organisasi");
-    revalidatePath("/organisasi/[period]");
-    revalidatePath("/organisasi/[period]/[slug]");
+    revalidatePath("/organisasi/[period]", "page");
+    revalidatePath("/organisasi/[period]/[slug]", "page");
     return { message: "Berhasil disimpan!", error: false };
   } catch (e) {
     console.error(e);
@@ -67,8 +67,8 @@ export const deletePeriodById = async (id: string) => {
 
     revalidatePath("/admin/period-config");
     revalidatePath("/organisasi");
-    revalidatePath("/organisasi/[period]");
-    revalidatePath("/organisasi/[period]/[slug]");
+    revalidatePath("/organisasi/[period]", "page");
+    revalidatePath("/organisasi/[period]/[slug]", "page");
     return { message: "Berhasil dihapus!", error: false };
   } catch (e) {
     console.error(e);

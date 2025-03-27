@@ -29,6 +29,7 @@ export async function addLink(data: FormData) {
       },
     });
     revalidatePath("/admin/link");
+    revalidatePath(`/link/${slug}`);
     return { message: "Berhasil menambahkan link!", error: false };
   } catch (e) {
     console.error(e);

@@ -14,6 +14,16 @@ import MdViewer from "./_components/MdViewer";
 import Related from "./_components/RelatedNews";
 import ShareButton from "./_components/ShareButton";
 
+function getOgImageUrl(slug: string, updatedAt: Date | string) {
+  const timestamp =
+    updatedAt instanceof Date
+      ? updatedAt.getTime()
+      : new Date(updatedAt).getTime();
+
+  const baseUrl = process.env.URL || "https://www.moklet.org";
+  return `${baseUrl}/api/post/${slug}/og-image.png?v=${timestamp}`;
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -35,7 +45,7 @@ export async function generateMetadata({
     openGraph: {
       url: `${baseUrl}/berita/${post.slug}`,
       title: post.title,
-      images: [{ url: `${baseUrl}/api/post/${post.slug}/og-image.png` }],
+      images: [{ url: getOgImageUrl(post.slug, post.updated_at) }],
       description: post.description.trim() || undefined,
       type: "article",
       publishedTime: new Date(post.published_at!).toISOString(),
@@ -58,15 +68,17 @@ export default async function Post({
   if (!post) notFound();
   else await updatePost({ id: post.id }, { view_count: { increment: 1 } });
 
+  const ogImageUrl = getOgImageUrl(post.slug, post.updated_at);
+
   const jsonLd: WithContext<NewsArticle> = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
-    image: `${baseUrl}/api/post/${post.slug}/og-image.png`,
+    image: ogImageUrl,
     description: post.description,
     headline: post.title,
     datePublished: new Date(post.published_at!).toISOString(),
     dateModified: new Date(post.updated_at).toISOString(),
-    thumbnailUrl: `${baseUrl}/api/post/${post.slug}/og-image.png`,
+    thumbnailUrl: ogImageUrl,
   };
 
   return (
@@ -120,7 +132,7 @@ export default async function Post({
                   ))}
                 </div>
                 <ShareButton
-                  url={`${process.env.URL ?? "https://www.moklet.org"}/berita/${post.slug}`}
+                  url={`${baseUrl}/berita/${post.slug}`}
                   post={post}
                 />
               </div>
